@@ -102,8 +102,12 @@ function createPokemonCard(pokemonData) {
 }
 
 searchButton.addEventListener("click", async function() {
+    container.innerHTML = '<div class="loading"></div>';
     const searchTerm = searchInput.value.toLowerCase();
     const pokemons = await fetchPokemons();
-    const filteredPokemons = pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm));
-    displayPokemons(filteredPokemons);
+
+    setTimeout(async function() {
+        const filteredPokemons = pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm));
+        displayPokemons(filteredPokemons);
+    }, 1000);
 });
