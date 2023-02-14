@@ -63,30 +63,19 @@ function createPokemonCard(pokemonData) {
     pokemonNumber.classList.add("pokemon-number");
     pokemonCard.appendChild(pokemonNumber);
 
-    if (pokemonData.types.length > 1) {
-        const pokemonTypeDiv = document.createElement("div");
-        pokemonTypeDiv.classList.add("pokemon-type-div");
-        pokemonCard.appendChild(pokemonTypeDiv);
+    const pokemonTypeDiv = document.createElement("div");
+    pokemonTypeDiv.classList.add("pokemon-type-div");
+    pokemonCard.appendChild(pokemonTypeDiv);
+
+    pokemonData.types.map((type, index) => {
         const pokemonType = document.createElement("div");
-        const typeColor = colours[pokemonData.types[0].type.name.toLowerCase()];
-        pokemonType.textContent = pokemonData.types[0].type.name;
-        pokemonType.classList.add("pokemon-type");
+        const typeColor = colours[type.type.name.toLowerCase()];
+        pokemonType.textContent = type.type.name;
+        pokemonType.classList.add(`pokemon-type${index + 1}`);
         pokemonTypeDiv.appendChild(pokemonType);
         pokemonType.style.backgroundColor = typeColor;
-        const pokemonType2 = document.createElement("div");
-        const typeColor2 = colours[pokemonData.types[1].type.name.toLowerCase()];
-        pokemonType2.textContent = pokemonData.types[1].type.name;
-        pokemonType2.classList.add("pokemon-type2");
-        pokemonTypeDiv.appendChild(pokemonType2);
-        pokemonType2.style.backgroundColor = typeColor2;
-    } else {
-        const pokemonType = document.createElement("div");
-        const typeColor = colours[pokemonData.types[0].type.name.toLowerCase()];
-        pokemonType.textContent = pokemonData.types[0].type.name;
-        pokemonType.classList.add("pokemon-type");
-        pokemonCard.appendChild(pokemonType);
-        pokemonType.style.backgroundColor = typeColor;
-    }
+    });
+
 
     const pokemonHeight = document.createElement("div");
     pokemonHeight.textContent = "Height: " + pokemonData.height;
@@ -101,12 +90,12 @@ function createPokemonCard(pokemonData) {
     return pokemonCard;
 }
 
-searchButton.addEventListener("click", async function() {
+searchButton.addEventListener("click", async function () {
     container.innerHTML = '<div class="loading"></div>';
     const searchTerm = searchInput.value.toLowerCase();
     const pokemons = await fetchPokemons();
 
-    setTimeout(async function() {
+    setTimeout(async function () {
         const filteredPokemons = pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm));
         displayPokemons(filteredPokemons);
     }, 1000);
